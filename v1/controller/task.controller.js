@@ -182,4 +182,6 @@ module.exports.deleteMulti = async (req , res) => {
             code: 200,
             message: "Xóa công việc thành công!"
         })
-    }
+}
+
+// [POST] /v1/api/user/login
