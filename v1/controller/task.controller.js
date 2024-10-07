@@ -184,4 +184,3 @@ module.exports.deleteMulti = async (req , res) => {
         })
 }
 
-// [POST] /v1/api/user/login

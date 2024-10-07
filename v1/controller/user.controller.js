@@ -70,3 +70,70 @@ module.exports.forgot  = async (req,res) =>{
         message : "Đã gửi mã OTP !"
     })
 }
+
+// POST /v1/api/user/password/otp
+module.exports.otp  = async (req,res) =>{
+    try {
+        const authorize = await forgotPassword.findOne({
+            email : req.body.email,
+            otp : req.body.otp
+        })
+    
+        if(!authorize){
+            res.json({
+                code : 400,
+                message : "Xác thực thất bại !"
+            })
+        }
+    
+        const token = await User.findOne({
+            email : req.body.email,
+            deleted: false
+        });
+    
+        res.json({
+            code : 200,
+            message : "Xác thực thành công !",
+            tokenUser : token.tokenUser
+        })
+    } catch (error) {
+        res.json({
+            code : 400,
+            message : "Xác thực thất bại !"
+        })
+    }
+}
+
+// POST /v1/api/user/password/reset
+module.exports.reset  = async (req,res) =>{
+    try {
+        const {tokenUser, newPassword} =  req.body;
+        const user = await User.findOne({
+            tokenUser : tokenUser,
+            deleted : false 
+        })
+        if(!User){
+            res.json({
+                code : 400,
+                message : "Đổi mật khẩu thất bại !"
+            }) 
+        }
+        await User.updateOne({
+            tokenUser : tokenUser,
+            deleted : false 
+        },{
+            password: md5(newPassword)
+        })
+
+        res.json({
+            code : 200,
+            message : "Đổi mật khẩu thành công !",
+        })
+    } catch (error) {
+        res.json({
+            code : 400,
+            message : "Đổi mật khẩu thất bại !"
+        })
+    }
+}
+

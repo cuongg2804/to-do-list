@@ -14,4 +14,12 @@ router.post("/login",userValitdate.login,controller.login);
 
 router.post("/password/forgot", userValitdate.forgot,controller.forgot);
 
+// POST /v1/api/user/password/otp
+
+router.post("/password/otp", controller.otp);
+
+// POST /v1/api/user/password/reset
+
+router.post("/password/reset", controller.reset);
+
 module.exports = router;
