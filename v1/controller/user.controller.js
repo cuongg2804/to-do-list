@@ -137,3 +137,19 @@ module.exports.reset  = async (req,res) =>{
     }
 }
 
+// GET /v1/api/user/detai/:id
+module.exports.detail  = async (req,res) =>{
+    try {
+        res.json({
+            code : 200,
+            message : "Thông tin người dùng !",
+            user : res.locals.user
+        })
+    } catch (error) {
+        res.json({
+            code : 400,
+            message : "Không tồn tại người dùng !",
+        })
+    }
+}
+
